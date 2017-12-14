@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public AudioClip jump;
+
     Rigidbody2D body;
+
     int speed = 5;
 
 	void Start ()
@@ -19,7 +22,8 @@ public class PlayerMovement : MonoBehaviour
         
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            body.AddForce(new Vector2(0, 350));
+            SoundHandler.Instance.PlaySound(jump);
+            body.AddForce(new Vector2(0, 350));           
         }
 	}
 }

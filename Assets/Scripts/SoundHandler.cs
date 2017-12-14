@@ -30,7 +30,7 @@ public class SoundHandler : MonoBehaviour
 		
 	}
 
-    void PlaySound(AudioClip clip)
+    public void PlaySound(AudioClip clip)
     {
         foreach (AudioSource i in sources)
         {
@@ -38,6 +38,7 @@ public class SoundHandler : MonoBehaviour
             {
                 i.clip = clip;
                 i.Play();
+                return;
             }
         }
     }
