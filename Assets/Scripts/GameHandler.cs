@@ -6,7 +6,7 @@ public class GameHandler : MonoBehaviour
 {
     public static GameHandler Instance;
 
-    public PlayerMovement player;
+    public Player player;
 
 	void Awake ()
     {
@@ -24,7 +24,7 @@ public class GameHandler : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.Find("Player").GetComponent<PlayerMovement>();
+        player = GameObject.Find("Player").GetComponent<Player>();
     }
 
     // Update is called once per frame

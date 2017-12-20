@@ -21,15 +21,20 @@ public class Enemy : MonoBehaviour
         {
             case "lockOn":
                 MoveTowardsPlayer();
+                Debug.Log("yis");
                 break;
         }
 	}
 
     private void ChooseAction()
     {
-        if (Vector2.Distance(transform.position, GameHandler.Instance.player.transform.position) < 2)
+        if (Vector2.Distance(transform.position, GameHandler.Instance.player.transform.position) < 4)
         {
             currentAction = "lockOn";
+        }
+        else
+        {
+            currentAction = "idle";
         }
     }
 
