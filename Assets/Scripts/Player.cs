@@ -19,8 +19,8 @@ public class Player : MonoBehaviour
     {
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, body.velocity.y);
 
-        RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.5f, transform.position.y -0.51f), Vector2.down);
-        RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.5f, transform.position.y - 0.51f), Vector2.down);
+        RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.4f, transform.position.y -0.51f), Vector2.down);
+        RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.4f, transform.position.y - 0.51f), Vector2.down);
         if (hitA.distance < 0.01f || hitB.distance < 0.01f)
         {
             if (Input.GetKeyDown(KeyCode.Space))
@@ -29,5 +29,11 @@ public class Player : MonoBehaviour
                 body.AddForce(new Vector2(0, 350));
             }
         }
+
+        // interact
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+
+        }       
 	}
 }

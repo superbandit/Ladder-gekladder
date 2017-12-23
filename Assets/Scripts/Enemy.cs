@@ -5,7 +5,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Rigidbody2D body;
-    float speed = 1;
+    Vector2 startPosition;
+    float speed = 1.5f;
     float nextMoveTimer = 1;
     string currentAction = null;
 
@@ -13,7 +14,8 @@ public class Enemy : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         InvokeRepeating("ChooseAction", 0, nextMoveTimer);
-	}
+        startPosition = transform.position;
+    }
 	
 	void Update ()
     {
@@ -21,8 +23,11 @@ public class Enemy : MonoBehaviour
         {
             case "lockOn":
                 MoveTowardsPlayer();
-                Debug.Log("yis");
                 break;
+            case "idle":
+                Moveidle();
+                break;
+
         }
 	}
 
@@ -34,13 +39,18 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            currentAction = "idle";
+            currentAction = "idle";           
         }
     }
 
     private void MoveTowardsPlayer()
     {
-        body.velocity = new Vector2(speed, body.velocity.y);
+        float side = (Mathf.Clamp(GameHandler.Instance.player.transform.position.x - transform.position.x, -1, 1));
+        body.velocity = new Vector2(side * speed, body.velocity.y);
     }
 
+    private void Moveidle()
+    {
+        transform.Translate(Mathf.Sin(Time.time) * Time.deltaTime * speed, 0.0f, 0.0f) ;
+    }
 }
