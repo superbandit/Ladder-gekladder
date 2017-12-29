@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
 
         RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.4f, transform.position.y -0.51f), Vector2.down);
         RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.4f, transform.position.y - 0.51f), Vector2.down);
-        if (hitA.distance < 0.01f || hitB.distance < 0.01f)
+        if (hitA.distance < 0.03f || hitB.distance < 0.03f)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -29,11 +29,20 @@ public class Player : MonoBehaviour
                 body.AddForce(new Vector2(0, 350));
             }
         }
-
-        // interact
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-
-        }       
 	}
+    private void OnTriggerStay2D(Collider2D col)
+    {
+        // interact
+        if (Input.GetKey(KeyCode.E))
+        {
+            if (col.tag == "Movable")
+            {
+                col.GetComponent<Rigidbody2D>().simulated = false;
+                float height = col.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+
+                col.transform.position = new Vector2(this.transform.position.x, this.transform.position.y + height);
+                //verder met onthouden obj
+            }
+        }
+    }
 }
