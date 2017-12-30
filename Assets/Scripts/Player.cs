@@ -5,8 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public AudioClip jump;
-
     Rigidbody2D body;
+
+    GameObject toPickUp;
+    GameObject pickedUp;
+    float pickedUpHeight;
 
     int speed = 5;
 
@@ -14,8 +17,28 @@ public class Player : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
 	}
-	
-	void FixedUpdate ()
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if (pickedUp != null)
+            {
+                StopCoroutine(MovePickedUp());
+                pickedUp.GetComponent<Rigidbody2D>().simulated = true;
+                pickedUp = null;
+            }
+            else if (pickedUp == null)
+            {
+                pickedUp = toPickUp;
+                pickedUp.GetComponent<Rigidbody2D>().simulated = false;
+                pickedUpHeight = pickedUp.GetComponent<SpriteRenderer>().bounds.size.y / 2 - 0.48f;
+                StartCoroutine(MovePickedUp());
+            }
+        }
+    }
+
+    void FixedUpdate ()
     {
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, body.velocity.y);
 
@@ -30,19 +53,25 @@ public class Player : MonoBehaviour
             }
         }
 	}
-    private void OnTriggerStay2D(Collider2D col)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        // interact
-        if (Input.GetKey(KeyCode.E))
+        if (col.tag == "Movable")
         {
-            if (col.tag == "Movable")
-            {
-                col.GetComponent<Rigidbody2D>().simulated = false;
-                float height = col.GetComponent<SpriteRenderer>().bounds.size.y / 2;
+            toPickUp = col.gameObject;
+        }
+    }
 
-                col.transform.position = new Vector2(this.transform.position.x, this.transform.position.y + height);
-                //verder met onthouden obj
-            }
+    private void OnTriggerExit2D(Collider2D col)
+    {
+        toPickUp = null;
+    }
+
+    IEnumerator MovePickedUp()
+    {
+        while(pickedUp != null)
+        {
+            pickedUp.transform.position = new Vector2(this.transform.position.x, this.transform.position.y + pickedUpHeight);
+            yield return null;
         }
     }
 }
