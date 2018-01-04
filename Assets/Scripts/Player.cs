@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public AudioClip jump;
+    public GameObject bullet;
     Rigidbody2D body;
 
     GameObject toPickUp;
@@ -28,7 +29,7 @@ public class Player : MonoBehaviour
                 pickedUp.GetComponent<Rigidbody2D>().simulated = true;
                 pickedUp = null;
             }
-            else if (pickedUp == null)
+            else if (pickedUp == null && toPickUp != null)
             {
                 pickedUp = toPickUp;
                 pickedUp.GetComponent<Rigidbody2D>().simulated = false;

@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Rigidbody2D body;
-    Vector2 startPosition;
     float speed = 1.5f;
     float nextMoveTimer = 1;
     string currentAction = null;
@@ -14,7 +13,6 @@ public class Enemy : MonoBehaviour
     {
         body = GetComponent<Rigidbody2D>();
         InvokeRepeating("ChooseAction", 0, nextMoveTimer);
-        startPosition = transform.position;
     }
 	
 	void Update ()
