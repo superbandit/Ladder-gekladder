@@ -6,11 +6,14 @@ public class Player : MonoBehaviour
 {
     public AudioClip jump;
     public GameObject bullet;
+    public GameObject eButton;
     Rigidbody2D body;
 
     GameObject toPickUp;
     GameObject pickedUp;
     float pickedUpHeight;
+
+    bool nextLvlActive = false;
 
     int speed = 5;
 
@@ -36,6 +39,10 @@ public class Player : MonoBehaviour
                 pickedUpHeight = pickedUp.GetComponent<SpriteRenderer>().bounds.size.y / 2 - 0.48f;
                 StartCoroutine(MovePickedUp());
             }
+            else if (nextLvlActive)
+            {
+                GameHandler.Instance.NextLevel();
+            }
         }
     }
 
@@ -59,12 +66,20 @@ public class Player : MonoBehaviour
         if (col.tag == "Movable")
         {
             toPickUp = col.gameObject;
+            eButton.SetActive(true);
+        }
+        if (col.tag == "NextLvl")
+        {
+            nextLvlActive = true;
+            eButton.SetActive(true);
         }
     }
 
     private void OnTriggerExit2D(Collider2D col)
     {
         toPickUp = null;
+        nextLvlActive = false;
+        eButton.SetActive(false);
     }
 
     IEnumerator MovePickedUp()
