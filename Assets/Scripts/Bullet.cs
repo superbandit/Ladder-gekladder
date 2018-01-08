@@ -2,15 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour {
+public class Bullet : MonoBehaviour
+{
+    public int side = 0;
+    private int speed = 20;
 
-	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	void Update ()
+    {
+        transform.Translate(new Vector2(speed * side, 0) * Time.deltaTime);
+    }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+    }
+
+     void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            Destroy(col.gameObject);
+            Destroy(this.gameObject);
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.tag != "Movable")
+        {
+            Destroy(this.gameObject);
+        }
+    }
 }

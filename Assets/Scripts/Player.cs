@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
 
     bool nextLvlActive = false;
 
+    int facingSide = 1;
     int speed = 5;
 
 	void Start ()
@@ -44,6 +45,19 @@ public class Player : MonoBehaviour
                 GameHandler.Instance.NextLevel();
             }
         }
+        if(Input.GetAxisRaw("Horizontal") > 0)
+        {
+            facingSide = 1;
+        }
+        else if (Input.GetAxisRaw("Horizontal") < 0)
+        {
+            facingSide = -1;
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GameObject newBullet = Instantiate(bullet, new Vector2(transform.position.x + facingSide / 1.7f , transform.position.y), Quaternion.identity);
+            newBullet.GetComponent<Bullet>().side = facingSide;
+        }
     }
 
     void FixedUpdate ()
@@ -54,7 +68,7 @@ public class Player : MonoBehaviour
         RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.4f, transform.position.y - 0.51f), Vector2.down);
         if (hitA.distance < 0.03f || hitB.distance < 0.03f)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.W))
             {
                 SoundHandler.Instance.PlaySound(jump);
                 body.AddForce(new Vector2(0, 350));
