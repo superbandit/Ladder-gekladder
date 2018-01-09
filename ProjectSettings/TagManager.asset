@@ -16,9 +16,9 @@ TagManager:
   - UI
   - 
   - 
-  - Platform
-  - 
-  - 
+  - light sources
+  - ambient light
+  - light obstacles
   - 
   - 
   - 
