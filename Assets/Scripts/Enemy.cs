@@ -31,13 +31,13 @@ public class Enemy : MonoBehaviour
 
     private void ChooseAction()
     {
-        if (Vector2.Distance(transform.position, GameHandler.Instance.player.transform.position) < 4)
+        if (GameHandler.Instance.player != null && Vector2.Distance(transform.position, GameHandler.Instance.player.transform.position) < 4)
         {
             currentAction = "lockOn";
         }
         else
         {
-            currentAction = "idle";           
+            currentAction = "idle";
         }
     }
 

@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public AudioClip jump;
+    public AudioClip Shoot;
     public GameObject bullet;
     public GameObject eButton;
     Rigidbody2D body;
@@ -57,6 +58,7 @@ public class Player : MonoBehaviour
         {
             GameObject newBullet = Instantiate(bullet, new Vector2(transform.position.x + facingSide / 1.7f , transform.position.y), Quaternion.identity);
             newBullet.GetComponent<Bullet>().side = facingSide;
+            SoundHandler.Instance.PlaySound(Shoot);
         }
     }
 
@@ -64,14 +66,14 @@ public class Player : MonoBehaviour
     {
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, body.velocity.y);
 
-        RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.4f, transform.position.y -0.51f), Vector2.down);
-        RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.4f, transform.position.y - 0.51f), Vector2.down);
+        RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.3f, transform.position.y -0.51f), Vector2.down);
+        RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f, transform.position.y - 0.51f), Vector2.down);
         if (hitA.distance < 0.03f || hitB.distance < 0.03f)
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
                 SoundHandler.Instance.PlaySound(jump);
-                body.AddForce(new Vector2(0, 350));
+                body.AddForce(new Vector2(0, 300));
             }
         }
 	}
@@ -80,12 +82,18 @@ public class Player : MonoBehaviour
         if (col.tag == "Movable")
         {
             toPickUp = col.gameObject;
-            eButton.SetActive(true);
+            if (eButton != null)
+            {
+                eButton.SetActive(true);
+            }
         }
         if (col.tag == "NextLvl")
         {
             nextLvlActive = true;
-            eButton.SetActive(true);
+            if (eButton != null)
+            {
+                eButton.SetActive(true);
+            }
         }
     }
 
@@ -94,6 +102,14 @@ public class Player : MonoBehaviour
         toPickUp = null;
         nextLvlActive = false;
         eButton.SetActive(false);
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Enemy")
+        {
+            GameHandler.Instance.RestartLevel();
+        }
     }
 
     IEnumerator MovePickedUp()
