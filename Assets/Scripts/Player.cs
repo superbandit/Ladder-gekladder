@@ -60,6 +60,10 @@ public class Player : MonoBehaviour
             newBullet.GetComponent<Bullet>().side = facingSide;
             SoundHandler.Instance.PlaySound(Shoot);
         }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameHandler.Instance.RestartLevel();
+        }
     }
 
     void FixedUpdate ()
