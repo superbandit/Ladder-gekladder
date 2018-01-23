@@ -5,7 +5,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public AudioClip jump;
-    public AudioClip Shoot;
+    public AudioClip shoot;
+    public AudioClip pickUp;
     public GameObject bullet;
     public GameObject eButton;
     Rigidbody2D body;
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
                 pickedUp.GetComponent<Rigidbody2D>().simulated = false;
                 pickedUpHeight = pickedUp.GetComponent<SpriteRenderer>().bounds.size.y / 2 - 0.48f;
                 StartCoroutine(MovePickedUp());
+                SoundHandler.Instance.PlaySound(pickUp);
             }
             else if (nextLvlActive)
             {
@@ -54,11 +56,23 @@ public class Player : MonoBehaviour
         {
             facingSide = -1;
         }
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.3f, transform.position.y - 0.51f), Vector2.down);
+            RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f, transform.position.y - 0.51f), Vector2.down);
+            if (hitA.distance < 0.03f || hitB.distance < 0.03f)
+            {
+                SoundHandler.Instance.PlaySound(jump);
+                body.AddForce(new Vector2(0, 300));
+            }
+        }
+       
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject newBullet = Instantiate(bullet, new Vector2(transform.position.x + facingSide / 1.7f , transform.position.y), Quaternion.identity);
             newBullet.GetComponent<Bullet>().side = facingSide;
-            SoundHandler.Instance.PlaySound(Shoot);
+            SoundHandler.Instance.PlaySound(shoot);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -70,16 +84,7 @@ public class Player : MonoBehaviour
     {
         body.velocity = new Vector2(Input.GetAxisRaw("Horizontal") * speed, body.velocity.y);
 
-        RaycastHit2D hitA = Physics2D.Raycast(new Vector2(transform.position.x - 0.3f, transform.position.y -0.51f), Vector2.down);
-        RaycastHit2D hitB = Physics2D.Raycast(new Vector2(transform.position.x + 0.3f, transform.position.y - 0.51f), Vector2.down);
-        if (hitA.distance < 0.03f || hitB.distance < 0.03f)
-        {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                SoundHandler.Instance.PlaySound(jump);
-                body.AddForce(new Vector2(0, 300));
-            }
-        }
+
 	}
     private void OnTriggerEnter2D(Collider2D col)
     {
