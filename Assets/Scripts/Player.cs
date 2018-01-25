@@ -9,6 +9,10 @@ public class Player : MonoBehaviour
     public AudioClip pickUp;
     public GameObject bullet;
     public GameObject eButton;
+    public bool invincible = false;
+    public int speed = 5;
+
+
     Rigidbody2D body;
 
     GameObject toPickUp;
@@ -18,7 +22,7 @@ public class Player : MonoBehaviour
     bool nextLvlActive = false;
 
     int facingSide = 1;
-    int speed = 5;
+    
 
 	void Start ()
     {
@@ -115,7 +119,7 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Enemy")
+        if (col.gameObject.tag == "Enemy" && invincible == false)
         {
             GameHandler.Instance.RestartLevel();
         }
