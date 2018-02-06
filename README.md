@@ -29,4 +29,4 @@ Thanks for reading!
 
 ## Authors
 
-* **Bor den breejen** - *Entire Project* - [Main website](https://www.flamikaan.nl/bor)
+* **Bor den breejen** - *Entire Project* - [Main website](flamikaan.nl/bor)
