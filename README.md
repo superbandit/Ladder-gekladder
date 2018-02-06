@@ -13,12 +13,12 @@ Deze map is voor het laatst geopend in unity versie:
 Unity 2017.3.0f3
 ```
 
-## Explaination
+## Explanation
 
 These are all the files used for the game and documentation for my examproject
 textformat is odt so everybody can read it. The docs are in dutch with no translation.
 
-the main folder has most recently been oened with unity version:
+The main folder has most recently been opened with unity version:
 ```
 Unity 2017.3.0f3
 ```
